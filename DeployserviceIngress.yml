@@ -1,0 +1,69 @@
+Deploy Your Application: Deploy your application or services to Kubernetes. For example, let's deploy a simple web application represented by a Deployment and a corresponding Service:
+
+yaml
+Copy code
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+spec:
+  selector:
+    app: webapp
+  ports:
+    - port: 80
+      targetPort: 80
+This example deploys an Nginx web server as a Deployment with three replicas and exposes it via a Service.
+
+Define Ingress Resource: Now, define an Ingress resource to expose your service to external traffic. Below is an example of an Ingress resource definition:
+yaml
+Copy code
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webapp-ingress
+spec:
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: webapp
+            port:
+              number: 80
+In this example:
+
+host: Specifies the domain name for which the Ingress should route traffic.
+http: Defines rules for HTTP traffic.
+paths: Specifies the URL paths to match and how to route the traffic.
+backend: Specifies the backend service to route traffic to.
+Deploy Ingress Resource: Apply the Ingress resource definition to your Kubernetes cluster:
+bash
+Copy code
+kubectl apply -f ingress.yaml
+This will create the Ingress resource named webapp-ingress.
+
+Access Your Application: Once the Ingress controller processes the Ingress resource, it will configure itself to route incoming HTTP requests to the specified backend service (webapp in this case). You can now access your application using the specified domain name (example.com in this example).

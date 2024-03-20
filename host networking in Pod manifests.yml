@@ -1,0 +1,15 @@
+#Enable host networking in Pod manifests: When you define your pods, you need to explicitly specify that they should use host networking. You can do this by setting the hostNetwork field to true in the pod spec. For example:
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  hostNetwork: true
+  containers:
+  - name: my-container
+    image: nginx
+#Ensure proper network policies: Since host networking removes the network isolation provided by overlay networks, you need to ensure proper network policies are in place to control pod-to-pod communication and access to resources.
+
+#Consider security implications: Host networking can expose more of the host's network stack to the pods, which may have security implications. Ensure that you understand and mitigate these risks accordingly.
+
+#Remember that host networking is not suitable for all use cases, and you should carefully consider your requirements before choosing this option. Additionally, the specific steps for configuring host networking may vary depending on your Kubernetes distribution and version, so always refer to the relevant documentation for your environment.

@@ -1,0 +1,51 @@
+ClusterIP Service Example:
+yaml
+Copy code
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-clusterip-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+This example creates a ClusterIP service named my-clusterip-service that forwards traffic to pods labeled with app=my-app on port 8080. The service is accessible within the Kubernetes cluster on port 80.
+
+NodePort Service Example:
+yaml
+Copy code
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nodeport-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: NodePort
+This example creates a NodePort service named my-nodeport-service that forwards traffic to pods labeled with app=my-app on port 8080. The service is accessible externally on a randomly assigned port within a configurable range (typically 30000-32767) on all nodes in the cluster.
+
+LoadBalancer Service Example:
+yaml
+Copy code
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-loadbalancer-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
+This example creates a LoadBalancer service named my-loadbalancer-service that forwards traffic to pods labeled with app=my-app on port 8080. The service is accessible externally through a cloud provider-managed load balancer, which distributes traffic to the pods.
+
+#Remember to replace app: my-app with your actual label selector that matches the pods you want to expose via the service.
